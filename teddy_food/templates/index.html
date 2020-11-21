@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %} Животные {% endblock %}
+{% block static %}
+<!--вставить блок статики-->
+{% endblock %}
+{% block content %}
+    {% for animal in animals %}
+    <p>{{ animal.nickname }}</p>
+    <p>{{ animal.shelter }}</p>
+    <p>{{ animal.breed }}</p>
+    <p>{{ animal.kind }}</p>
+    <p>{{ animal.city }}</p>
+    <p>------------------------------</p>
+
+    {% endfor %}
+
+{% endblock %}
