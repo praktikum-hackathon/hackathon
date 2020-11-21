@@ -9,6 +9,7 @@
         {% load static %}
         {% block static %}
 <!--            вставить ссылку на статику-->
+      <link rel="stylesheet" href="./dist/static/css/app.95694c2e054db5fed4f483f69b7e4d0f.css">
         {% endblock %}
     </head>
     <body class="body">
@@ -21,5 +22,9 @@
                 {% endblock content %}
             </div>
         </main>
+
+        <script src="{% static 'js/vendor.js' %}"></script>
+        <script src="{% static 'js/manifest.js' %}"></script>
+        <script src="{% static 'js/app.js' %}"></script>
     </body>
 </html>
