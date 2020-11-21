@@ -1,12 +1,15 @@
 <template>
   <div class="page">
-    <section class="page__section section">
+    <div class="page__section _bg">
+    <section class="section">
       <div class="section__text-content">
         <h1 class="section__title title">Исследование на тему "Котики или киски?"</h1>
         <p class="section__subtitle">Ну вот мы такие, сидим исследуем</p>
         <my-btn class="section__btn" @btn-click="showPopup">Результат</my-btn>
+        <img class="section__img" src="https://i.ibb.co/PFpsjWQ/Artboard-4-2x.png" alt="Илюстрация">
       </div>
     </section>
+    </div>
     <Popup :active="popupOpened"
             @popup-close="popupOpened = false">
       <div class="tabs">
@@ -109,27 +112,40 @@ export default {
 </script>
 
 <style>
-* {
+
+html {
   box-sizing: border-box;
+  font-family: 'Helvetica', Arial,serif;
 }
+
+*, *:before, *:after {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-sizing: inherit;
+}
+
 .section {
   max-width: 1440px;
   padding: 0 48px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   margin: 0 auto;
   min-height: 100vh;
-  background-color: tomato;
 }
 
 .section__text-content {
-  width: 70%;
-  text-align: center;
-}
-.page {
+  width: 40%;
 }
 
+.page {
+  width: 100%;
+}
+
+.page__section {
+  background-color: #c8dde5;
+}
 .section__title {
   font-size: 36px;
   font-weight: bold;
@@ -142,7 +158,6 @@ export default {
 }
 
 .section__btn {
-  margin: 0 auto;
 }
 
 
