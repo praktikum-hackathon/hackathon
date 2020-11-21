@@ -9,7 +9,6 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
 develop-eggs/
 dist/
 downloads/
@@ -130,3 +129,7 @@ node_modules
 .idea
 !/app/apps/page/static/dbtemplates/codemirror/lib/
 /ssl/
+
+hack
+/hack
+/hack/
