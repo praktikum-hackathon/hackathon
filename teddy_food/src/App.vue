@@ -16,8 +16,8 @@
       </div>
       <section class="graphs">
         <div class="graphs__graphs">
-<!--          <pie-chart v-if="graphType === 'pie'" :chart-data="datacollection"/>-->
-<!--          <DCharts v-else-if="graphType === 'doughnut'" :chart-data="datacollection"/>-->
+          <pie-chart v-if="graphType === 'pie'" :chart-data="datacollection"/>
+          <DCharts v-else-if="graphType === 'doughnut'" :chart-data="datacollection"/>
         </div>
       </section>
     </Popup>
@@ -25,16 +25,16 @@
 </template>
 
 <script>
-// import PieChart from '@/components/PieChart.js'
-// import DCharts from '@/components/DCharts.js';
+import PieChart from '@/components/PieChart.js'
+import DCharts from '@/components/DCharts.js';
 import Popup from '@/components/Popup';
 import MyBtn from '@/components/MyBtn';
 
 export default {
   components: {
     Popup,
-    // PieChart,
-    // DCharts,
+    PieChart,
+    DCharts,
     MyBtn
   },
   data () {
