@@ -1,0 +1,38 @@
+version: '3'
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+
+services:
+
+  db:
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+
+  web:
+    build: .
+    command: sh -c "python manage.py migrate && gunicorn foodgram.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - static_volume:/code/static/
+      - static_volume:/code/media/
+    expose:
+      - 8000
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/code/static
+      - static_volume:/code/media/
+    ports:
+      - 80:80
+    depends_on:
+      - web
