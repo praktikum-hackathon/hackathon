@@ -1,4 +1,4 @@
-#hackathon mvp project
+# hackathon mvp project
 Проект созданный в рамках хакатона  Praktikum Hero
 
 Представляет собой mvp анализ данных с сайта [teddyfood.com](teddyfood.com)
@@ -16,3 +16,5 @@ sudo docker-compose up -d
 ```http://127.0.0.1```
 
 Наслаждаться нашей аналитикой котиков ;)
+
+Ссылка на тестовую документацию: [Google Doc](https://docs.google.com/spreadsheets/d/12BIxStyx0k2Ez2c2bB91iasIkOsMsVfm-5EuQCp04i8/edit?usp=sharing)
