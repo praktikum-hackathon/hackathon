@@ -1,6 +1,8 @@
 # hackathon mvp project
 Проект созданный в рамках хакатона  Praktikum Hero
 
+[Демо](https://drive.google.com/file/d/1wGNAzPUVKcAdf7RTPv8AkKFR8KbSExgG/view?usp=sharing)
+
 Представляет собой mvp анализ данных с сайта [teddyfood.com](teddyfood.com)
 
 Для запуска проекта клонируйте репозиторий
