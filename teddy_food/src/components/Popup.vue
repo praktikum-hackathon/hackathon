@@ -24,7 +24,7 @@ export default {
   },
   watch: {
     active() {
-      if (this.active == true) setTimeout(() => this.activeInner = true, 800);
+      if (this.active) setTimeout(() => this.activeInner = true, 800);
     },
 
   },
@@ -58,11 +58,7 @@ export default {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
   width: 0;
   height: 0;
@@ -74,12 +70,6 @@ export default {
 @media only screen and (max-width: 1358px) {
   .popup {
     padding: 70px 0;
-  }
-}
-
-@media only screen and (max-width: 919px) {
-  .popup {
-    padding: 20px 0;
   }
 }
 
@@ -102,63 +92,18 @@ export default {
 }
 
 .popup._active .popup__overlay {
-  -webkit-transform: scaleX(1);
   transform: scaleX(1);
-  -webkit-transition: -webkit-transform .5s cubic-bezier(.785, .135, .15, .86);
-  transition: -webkit-transform .5s cubic-bezier(.785, .135, .15, .86);
   transition: transform .5s cubic-bezier(.785, .135, .15, .86);
 }
 
 .popup._active .popup__close {
-  -webkit-transform: scale(1);
   transform: scale(1);
-  -webkit-transition: -webkit-transform .3s cubic-bezier(.09, 1.16, .34, 1.37) .7s;
-  transition: -webkit-transform .3s cubic-bezier(.09, 1.16, .34, 1.37) .7s;
   transition: transform .3s cubic-bezier(.09, 1.16, .34, 1.37) .7s;
 }
 
 .popup._active .popup__close:hover {
-  -webkit-transform: scale(1.2);
   transform: scale(1.2);
-  -webkit-transition: -webkit-transform .3s cubic-bezier(.09, 1.16, .34, 1.37);
-  transition: -webkit-transform .3s cubic-bezier(.09, 1.16, .34, 1.37);
   transition: transform .3s cubic-bezier(.09, 1.16, .34, 1.37);
-}
-
-.popup._noanimate {
-  -webkit-transform: translateY(0);
-  transform: translateY(0);
-  -webkit-transition: -webkit-transform 0s ease;
-  transition: -webkit-transform 0s ease;
-  transition: transform 0s ease;
-  transition: transform 0s ease, -webkit-transform 0s ease;
-}
-
-.popup._noanimate .popup__overlay, .popup._noanimate:after {
-  -webkit-transform: scaleX(1);
-  transform: scaleX(1);
-  -webkit-transition: -webkit-transform -1s cubic-bezier(.785, .135, .15, .86);
-  transition: -webkit-transform -1s cubic-bezier(.785, .135, .15, .86);
-  transition: transform -1s cubic-bezier(.785, .135, .15, .86);
-  transition: transform -1s cubic-bezier(.785, .135, .15, .86), -webkit-transform -1s cubic-bezier(.785, .135, .15, .86);
-}
-
-.popup._noanimate .popup__close {
-  -webkit-transform: scale(1);
-  transform: scale(1);
-  -webkit-transition: -webkit-transform -1s cubic-bezier(.09, 1.16, .34, 1.37) -1s;
-  transition: -webkit-transform -1s cubic-bezier(.09, 1.16, .34, 1.37) -1s;
-  transition: transform -1s cubic-bezier(.09, 1.16, .34, 1.37) -1s;
-  transition: transform -1s cubic-bezier(.09, 1.16, .34, 1.37) -1s, -webkit-transform -1s cubic-bezier(.09, 1.16, .34, 1.37) -1s;
-}
-
-.popup._noanimate .popup__close:hover {
-  -webkit-transform: scale(1.2);
-  transform: scale(1.2);
-  -webkit-transition: -webkit-transform -1s cubic-bezier(.09, 1.16, .34, 1.37);
-  transition: -webkit-transform -1s cubic-bezier(.09, 1.16, .34, 1.37);
-  transition: transform -1s cubic-bezier(.09, 1.16, .34, 1.37);
-  transition: transform -1s cubic-bezier(.09, 1.16, .34, 1.37), -webkit-transform -1s cubic-bezier(.09, 1.16, .34, 1.37);
 }
 
 .popup__overlay {
@@ -178,6 +123,7 @@ export default {
 
 .popup__inner {
   position: relative;
+  width: 100%;
   z-index: 2;
   opacity: 0;
   transform: translateY(20px);
@@ -193,14 +139,12 @@ export default {
 @media only screen and (max-width: 1358px) {
   .popup__inner {
     height: 100%;
-    width: 57.61719vw;
     margin: 0 auto;
   }
 }
 
 @media only screen and (max-width: 720px) {
   .popup__inner {
-    width: calc(100vw - 40px);
     overflow-y: auto;
   }
 }
@@ -213,23 +157,17 @@ export default {
   height: 22px;
   cursor: pointer;
   z-index: 3;
-  -webkit-transform: scale(0);
   transform: scale(0);
-  transition: -webkit-transform .3s cubic-bezier(.25, .46, .45, .94);
   transition: transform .3s cubic-bezier(.25, .46, .45, .94);
 }
 
 @media only screen and (max-width: 1358px) {
   .popup__close {
-    right: 15.42969vw;
+    right: 40px;
+    top: 40px
   }
 }
 
-@media only screen and (max-width: 919px) {
-  .popup__close {
-    top: 42px;
-  }
-}
 
 @media only screen and (max-width: 720px) {
   .popup__close {
@@ -256,12 +194,10 @@ export default {
 }
 
 .popup__close:before {
-  -webkit-transform: translate(-50%, -50%) rotate(-45deg);
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 .popup__close:after {
-  -webkit-transform: translate(-50%, -50%) rotate(45deg);
   transform: translate(-50%, -50%) rotate(45deg);
 }
 </style>
