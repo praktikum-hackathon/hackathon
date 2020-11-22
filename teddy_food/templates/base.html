@@ -14,14 +14,10 @@
       <link rel="stylesheet" href="{% static 'css/app.css' %}">
     </head>
     <body class="body">
-        <header class="header">
-        </header>
-        <main class="main container">
-            <div class="container">
+        <main class="main">
                 {% block content %}
                 <!-- Содержимое страницы -->
                 {% endblock content %}
-            </div>
         </main>
 
         <script src="{% static 'js/manifest.js' %}"></script>
