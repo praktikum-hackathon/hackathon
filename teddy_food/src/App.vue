@@ -449,6 +449,15 @@ html {
   width: 50%;
 }
 
+@media only screen and (max-width: 1358px) {
+  .stats {
+    display: block;
+  }
+
+  .stats__text-content {
+    width: 100%;
+  }
+}
 
 
 .graphs__graphs {
