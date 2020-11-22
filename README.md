@@ -14,4 +14,5 @@
 *python manage.py runserver*
 
 Сборка фронтенда осущетсвляется из директории teddy_food, командой
+
 *npm run build*
