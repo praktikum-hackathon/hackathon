@@ -5,10 +5,8 @@ COPY requirements.txt .
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev \
-                  && fc-cache -f \
+RUN apk update && apk add gcc libxml2-dev libxslt-dev python3-dev musl-dev \
                   && pip install --upgrade pip \
-                  && pip install -r requirements.txt \
-                  && rm -rf .cache/pip
+                  && pip install -r requirements.txt
 COPY . /code
 RUN export SECRET_KEY=test_SECRET_KEY && python manage.py collectstatic --noinput
