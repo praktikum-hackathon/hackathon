@@ -1,6 +1,7 @@
 from django.db import models
 
 
+
 class City(models.Model):
     city = models.CharField(verbose_name='город приюта',
                             max_length=255,
@@ -58,7 +59,8 @@ class OrderNumber(models.Model):
     order_number = models.IntegerField()
 
     def __str__(self):
-        return self.order_number
+        return str(self.order_number)
+
 
 
 class Lemmas(models.Model):

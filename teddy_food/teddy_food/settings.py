@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'animals',
+    'api',
     'csvimport.app.CSVImportConf',
     'django.contrib.admin',
     'django.contrib.auth',

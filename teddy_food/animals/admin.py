@@ -67,5 +67,5 @@ class LemmasAdmin(admin.ModelAdmin):
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ('pk', 'animal',  'shelter', 'transaction_amount',
-                    'date',
+                    'date', 'order_number',
                     'lemmas',)
