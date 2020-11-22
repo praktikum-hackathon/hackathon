@@ -68,8 +68,7 @@
               </button>
             </div>
             <div class="graphs__graphs">
-              <bar-chart v-if="graphType === 'pie'" :chart-data="datacollection" :options="initialOptions" />
-              <DCharts v-else-if="graphType === 'doughnut'" :chart-data="datacollection" />
+              <bar-chart :chart-data="datacollection" :options="initialOptions" />
             </div>
           </div>
         </section>
@@ -87,21 +86,21 @@
             <div class="tabs">
               <div class="tabs">
                 <button :class="['tabs__tab',{'_active' : tabTitle==='Мальчики'}]"
-                        @click="fillData($event.currentTarget.dataset.title,getHomeGraph)"
+                        @click="fillData($event.currentTarget.dataset.title,getCategoriesGraph)"
                         data-title="Мальчики">Показать мальчиков
                 </button>
                 <button :class="['tabs__tab',{'_active' : tabTitle==='Девочки'}]"
-                        @click="fillData($event.currentTarget.dataset.title,getHomeGraph)"
+                        @click="fillData($event.currentTarget.dataset.title,getCategoriesGraph)"
                         data-title="Девочки">Показать девочек
                 </button>
                 <button :class="['tabs__tab',{'_active' : tabTitle==='Общее количество'}]"
-                        @click="fillData($event.currentTarget.dataset.title,getHomeGraph)"
+                        @click="fillData($event.currentTarget.dataset.title,getCategoriesGraph)"
                         data-title="Общее количество">Показать всех
                 </button>
               </div>
             </div>
             <div class="graphs__graphs">
-              <DCharts :chart-data="datacollection" :options="initialOptions"/>
+              <bar-chart :chart-data="datacollection" :options="initialOptions"/>
             </div>
           </div>
         </section>
@@ -121,9 +120,6 @@
             <img class="graphs__img" src="https://i.ibb.co/hMmZNxH/Artboard-1-2x.png" alt="Котики">
           </div>
         </section>
-
-
-
       </cont>
     </Popup>
   </div>
@@ -155,6 +151,7 @@ export default {
       popupOpened: false,
       tabTitle: 'Общее количество',
       sections: '',
+      categories: '',
       activePopup: 0,
       initialOptions: {
         scales: {
@@ -168,7 +165,8 @@ export default {
     };
   },
   mounted() {
-    this.loadHomeStats('/data');
+    this.loadHomeStats('api/v1/data');
+    this.loadCategories('api/v1/sex');
     this.sections = document.querySelectorAll('.js-section');
   },
   methods: {
@@ -181,9 +179,9 @@ export default {
 
     loadCategories(url) {
       fetch(url)
-        .then(res=>res.json())
-        .then(res=> this.homeStats = res)
-        .then(res=> this.datacollection = this.getHomeGraph('Общее количество'))
+        .then(res =>res.json())
+        .then(res => this.categories = res)
+        .then(res => this.datacollection = this.getCategoriesGraph('Общее количество'))
     },
 
     scrollTo(num) {
@@ -210,15 +208,15 @@ export default {
             {
               label: 'Забрали домой',
               backgroundColor: ['#5E81F4', '#00C4B4'],
-              data: [this.homeStats[0].home,
-                    this.homeStats[1].home],
+              data: [this.homeStats[1].home,
+                    this.homeStats[0].home],
             },
 
             {
               label: 'Еще не забрали',
               backgroundColor: ['#FFAE33', '#0CC3E7'],
-              data: [this.homeStats[0].total - this.homeStats[0].home,
-                    this.homeStats[1].total - this.homeStats[1].home],
+              data: [this.homeStats[1].total - this.homeStats[1].home,
+                    this.homeStats[0].total - this.homeStats[0].home],
             },
           ],
         };
@@ -260,13 +258,73 @@ export default {
       };
     },
 
-    getCategoriesGraph(){
+    getCategoriesGraph(title) {
+      if (title === 'Общее количество') return {
+        ...this.initialOptions,
+        offset: false,
+        labels: ['Мальчики', 'Девочки'],
+        datasets: [
+          {
+            label: 'На медицину',
+            backgroundColor: ['#5E81F4', '#00C4B4'],
+            data: [this.categories[0].meds,
+              this.categories[1].meds],
+          },
 
+          {
+            label: 'На игрушки',
+            backgroundColor: ['#FFAE33', '#0CC3E7'],
+            data: [this.categories[0].toys,
+              this.categories[1].toys],
+          },
+        ],
+      };
+
+      if (title === 'Мальчики') return {
+        ...this.initialOptions, //мальчики
+        labels: ['Мальчики'],
+        datasets: [
+          {
+            label: 'На игрушки',
+            backgroundColor: ['#5E81F4'],
+            data: [this.categories[0].toys],
+          },
+
+          {
+            label: 'На медицину',
+            backgroundColor: ['#FFAE33'],
+            data: [this.categories[0].meds],
+          },
+        ],
+      };
+      if (title === 'Девочки') return { //Девочки
+        ...this.initialOptions,
+        offset: false,
+        labels: ['Девочки'],
+        datasets: [
+          {
+            label: 'На игрушки',
+            backgroundColor: '#00C4B4',
+            data: [this.categories[1].toys],
+          },
+
+          {
+            label: 'На медицину',
+            backgroundColor: ['#0CC3E7'],
+            data: [this.categories[1].meds],
+          },
+        ],
+      };
     },
 
     showPopup(num) {
       this.popupOpened = true;
       this.activePopup = num
+      if(num === 1) {
+        this.datacollection = this.getHomeGraph('Общее количество')
+      } else {
+        this.datacollection = this.getCategoriesGraph('Общее количество')
+      }
     },
   },
 };
