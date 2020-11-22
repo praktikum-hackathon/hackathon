@@ -55,15 +55,15 @@
           <div class="graphs">
             <div class="tabs">
               <button :class="['tabs__tab',{'_active' : tabTitle==='Мальчики'}]"
-                      @click="fillData($event.currentTarget.dataset.title)"
+                      @click="fillData($event.currentTarget.dataset.title,getHomeGraph)"
                       data-title="Мальчики">Показать мальчиков
               </button>
               <button :class="['tabs__tab',{'_active' : tabTitle==='Девочки'}]"
-                      @click="fillData($event.currentTarget.dataset.title)"
+                      @click="fillData($event.currentTarget.dataset.title,getHomeGraph)"
                       data-title="Девочки">Показать девочек
               </button>
               <button :class="['tabs__tab',{'_active' : tabTitle==='Общее количество'}]"
-                      @click="fillData($event.currentTarget.dataset.title)"
+                      @click="fillData($event.currentTarget.dataset.title,getHomeGraph)"
                       data-title="Общее количество">Показать всех
               </button>
             </div>
@@ -85,55 +85,40 @@
 
           <div class="graphs">
             <div class="tabs">
-              <button :class="['tabs__tab',{'_active' : tabTitle==='Мальчики'}]"
-                      @click="fillData($event.currentTarget.dataset.title)"
-                      data-title="Мальчики">Показать мальчиков
-              </button>
-              <button :class="['tabs__tab',{'_active' : tabTitle==='Девочки'}]"
-                      @click="fillData($event.currentTarget.dataset.title)"
-                      data-title="Девочки">Показать девочек
-              </button>
-              <button :class="['tabs__tab',{'_active' : tabTitle==='Общее количество'}]"
-                      @click="fillData($event.currentTarget.dataset.title)"
-                      data-title="Общее количество">Показать всех
-              </button>
+              <div class="tabs">
+                <button :class="['tabs__tab',{'_active' : tabTitle==='Мальчики'}]"
+                        @click="fillData($event.currentTarget.dataset.title,getHomeGraph)"
+                        data-title="Мальчики">Показать мальчиков
+                </button>
+                <button :class="['tabs__tab',{'_active' : tabTitle==='Девочки'}]"
+                        @click="fillData($event.currentTarget.dataset.title,getHomeGraph)"
+                        data-title="Девочки">Показать девочек
+                </button>
+                <button :class="['tabs__tab',{'_active' : tabTitle==='Общее количество'}]"
+                        @click="fillData($event.currentTarget.dataset.title,getHomeGraph)"
+                        data-title="Общее количество">Показать всех
+                </button>
+              </div>
             </div>
             <div class="graphs__graphs">
-              <bar-chart v-if="graphType === 'pie'" :chart-data="datacollection" :options="initialOptions" />
-              <DCharts v-else-if="graphType === 'doughnut'" :chart-data="datacollection" />
+              <DCharts :chart-data="datacollection" :options="initialOptions"/>
             </div>
           </div>
         </section>
         <section v-if="activePopup === 3" class="stats">
           <div class="stats__text-content">
-            <h2 class="stats__title">Заголовок исследования</h2>
-            <p class="stats__subtitle">Вот здесь будет много много много много много много много много много много
-              много много много много много много много много много много
-              много много много много много много много много много много
-              много многомного многомного многом
-              много много текста
+            <h2 class="stats__title">Занимательная статистика</h2>
+            <p class="stats__subtitle">Если немного изменить сам запрос к нашей чудесной БД, то можно собрать разную аналитику:
+
+              <span>например, во время анализа был замечен интересный момент, что среди топ-20 питомцев обоих видов, добавленных в избранное, только у 5 уже есть дом, их можно так и отображать, топ-20 всеобщих любимчиков без дома, если добавить еще пятерых, и помогать им таким образом его обрести.</span>
+
+              <span>есть всего 6 городов из 13 (Самара, Пермь, Москва, Санкт-Петербург, Казань, Волгоград), где число питомцев, перечисленных на сайте, превысило 100. И всего лишь в 3 приюта активно добавляют своих питомцев, потому что сумма кошек и собак в этих трех приютах от всех питомцев на сайте составляет 53%, другим городам и приютам стоило бы присоединиться к этому движению.</span>
+
             </p>
           </div>
 
           <div class="graphs">
-            <div class="tabs">
-              <button :class="['tabs__tab',{'_active' : tabTitle==='Мальчики'}]"
-                      @click="fillData($event.currentTarget.dataset.title)"
-                      data-title="Мальчики">Показать мальчиков
-              </button>
-              <button :class="['tabs__tab',{'_active' : tabTitle==='Девочки'}]"
-                      @click="fillData($event.currentTarget.dataset.title)"
-                      data-title="Девочки">Показать девочек
-              </button>
-              <button :class="['tabs__tab',{'_active' : tabTitle==='Общее количество'}]"
-                      @click="fillData($event.currentTarget.dataset.title)"
-                      data-title="Общее количество">Показать всех
-              </button>
-            </div>
-            <div class="graphs__graphs">
-              <bar-chart v-if="graphType === 'pie'" :chart-data="datacollection" :options="initialOptions" />
-              <DCharts v-else-if="graphType === 'doughnut'" :chart-data="datacollection" />
-            </div>
+            <img class="graphs__img" src="https://i.ibb.co/hMmZNxH/Artboard-1-2x.png" alt="Котики">
           </div>
         </section>
 
@@ -187,16 +172,23 @@ export default {
     this.sections = document.querySelectorAll('.js-section');
   },
   methods: {
-    async loadHomeStats(url) {
-      this.datacollection = this.getObject('Общее количество')
-      this.homeStats = await fetch(url)
-      console.log(this.homeStats)
+    loadHomeStats(url) {
+      fetch(url)
+        .then(res=>res.json())
+        .then(res=> this.homeStats = res)
+        .then(res=> this.datacollection = this.getHomeGraph('Общее количество'))
+    },
+
+    loadCategories(url) {
+      fetch(url)
+        .then(res=>res.json())
+        .then(res=> this.homeStats = res)
+        .then(res=> this.datacollection = this.getHomeGraph('Общее количество'))
     },
 
     scrollTo(num) {
       const rect = this.sections[num].getBoundingClientRect(),
         scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-     console.log (rect.top + scrollTop)
 
       window.scrollTo({
         top: rect.top + scrollTop,
@@ -204,12 +196,12 @@ export default {
       });
     },
 
-    fillData(title) {
-      this.datacollection = this.getObject(title);
+    fillData(title,callback) {
+      this.datacollection = callback(title);
       this.tabTitle = title;
     },
 
-    getObject(title) {
+    getHomeGraph(title) {
       if (title === 'Общее количество') return {
           ...this.initialOptions,
           offset: false,
@@ -218,40 +210,58 @@ export default {
             {
               label: 'Забрали домой',
               backgroundColor: ['#5E81F4', '#00C4B4'],
-              data: [466, 607],
+              data: [this.homeStats[0].home,
+                    this.homeStats[1].home],
             },
 
             {
               label: 'Еще не забрали',
               backgroundColor: ['#FFAE33', '#0CC3E7'],
-              data: [300, 400],
+              data: [this.homeStats[0].total - this.homeStats[0].home,
+                    this.homeStats[1].total - this.homeStats[1].home],
             },
           ],
         };
 
       if (title === 'Мальчики') return {
         ...this.initialOptions, //мальчики
-        labels: ['Забрали домой', 'Еще не забрали'],
+        labels: ['Мальчики'],
         datasets: [
           {
             label: 'Забрали домой',
-            backgroundColor: ['blue', 'red'],
-            data: [466, 607],
+            backgroundColor: ['#5E81F4'],
+            data: [this.homeStats[0].home],
+          },
+
+          {
+            label: 'Еще не забрали',
+            backgroundColor: ['#FFAE33'],
+            data: [this.homeStats[0].total - this.homeStats[0].home],
           },
         ],
       };
       if (title === 'Девочки') return { //Девочки
         ...this.initialOptions,
         offset: false,
-        labels: ['Забрали домой', 'Еще не забрали'],
+        labels: ['Девочки'],
         datasets: [
           {
-            label: 'Девочки',
-            backgroundColor: ['blue', 'red'],
-            data: [121, 205],
+            label: 'Забрали домой',
+            backgroundColor: '#00C4B4',
+            data: [this.homeStats[1].home],
+          },
+
+          {
+            label: 'Еще не забрали',
+            backgroundColor: ['#0CC3E7'],
+            data: [this.homeStats[1].total - this.homeStats[1].home],
           },
         ],
       };
+    },
+
+    getCategoriesGraph(){
+
     },
 
     showPopup(num) {
@@ -304,7 +314,7 @@ html {
 .section__subtitle {
   font-size: 18px;
   margin-bottom: 28px;
-  line-height: 1.5;
+  line-height: 1.7;
 }
 
 .section__text-content {
@@ -334,11 +344,17 @@ html {
 .stats__subtitle {
   font-size: 16px;
   margin-bottom: 28px;
-  line-height: 1.5;
+  line-height: 1.7;
+}
+
+.stats__subtitle span {
+  display: block;
+  margin-top: 18px;
+  margin-left: 36px;
 }
 
 .stats__text-content {
-  width: 40%;
+  width: 50%;
 }
 
 
@@ -346,6 +362,10 @@ html {
 .graphs__graphs {
   width: 400px;
   margin-right: auto;
+}
+
+.graphs__img {
+  width: 100%;
 }
 
 .tabs {
@@ -361,7 +381,7 @@ html {
   margin: 0 6px;
   font-size: 14px;
   font-weight: 500;
-  line-height: 1.44;
+  line-height: 1;
   color: #2a2a30;
   border: none;
   border-radius: 5px;
@@ -379,7 +399,6 @@ html {
     height: 44px;
     padding: 14px 16px;
     font-size: 14px;
-    line-height: 1.2;
   }
 }
 
