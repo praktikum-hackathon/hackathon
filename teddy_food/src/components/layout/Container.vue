@@ -15,4 +15,18 @@ export default {
   margin: 0 auto;
 }
 
+
+@media only screen and (max-width: 1358px) {
+  .container {
+    padding: 0 36px;
+  }
+}
+
+
+@media only screen and (max-width: 919px) {
+  .container {
+    padding: 0 24px;
+  }
+}
+
 </style>

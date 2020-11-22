@@ -325,6 +325,40 @@ html {
   width: 50%;
 }
 
+
+@media only screen and (max-width: 720px) {
+  .section {
+    position: relative;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+
+  .section__img {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    transform: translate(-50%);
+  }
+
+  .section__text-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+
+  .section__btn {
+    justify-self: flex-end;
+  }
+}
+
+
 .section__btn {
   background-color: #d29ddd;
   color: white;

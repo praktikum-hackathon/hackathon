@@ -33,6 +33,7 @@ export default {
   height: 80px;
   background-color: white;
   box-shadow: 0 0px 0 1px #bcbfbf;
+  z-index: 3;
 }
 
 .header::after {
